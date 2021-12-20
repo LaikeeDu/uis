@@ -5,9 +5,10 @@
 			<view>2.CTRL+V可粘贴图片，支持多图上传，最大100M</view>
 			<view>3.数据持久化存储，不删除，提供JS接口上传</view>
 		</view>
-		<view class="btn-list">
-			<button type="primary" @click="upload()">上传文件</button>
+		<view id="drop-area" :class="'btn-list '+ (dropActive ? 'drop-active' : '')">
+			<text style="margin-top: 40px;display: block;">拖拽文件至此自动上传</text>
 		</view>
+			<button type="primary" @click="upload()">上传文件</button>
 	
 		<view :class="{'my-tabs':true,'space-between':formatBe}">
 			<view  v-for="(item,index) in getModelData" :key="index" :class="{'tab-item':true,'active':activeIndex==index}" @tap="tap(index)">
@@ -38,6 +39,7 @@
 	export default {
 		data() {
 			return {
+				dropActive:false,
 				picurl:[],
 				activeIndex: 0,
 				modelData:[
@@ -61,6 +63,16 @@
 			}
 		},
 		methods: {
+			dropEvent(e) {
+				        this.dropActive = false
+				        e.stopPropagation()
+				        e.preventDefault()
+						console.log(e.dataTransfer.files)
+						for(let i = 0; i < e.dataTransfer.files.length; i++){
+							this.upload(e.dataTransfer.files[i])
+						}
+				        
+			},
 			tap(index){
 				if(index!==this.activeIndex)this.$emit("change",index);
 				this.activeIndex=index;
@@ -224,8 +236,9 @@
 							// #endif
 							*/
 				}).then((options) => {
-					uni.showLoading({
-						title: '文件上传中...'
+					uni.showToast({
+						title: '文件上传中...',
+						icon: 'loading'
 					})
 					let arr = []
 					console.log(options)
@@ -339,6 +352,23 @@
 		},
 		mounted() {
 			    document.addEventListener('paste', this.paste, true)
+				let dropArea = document.getElementById('drop-area')
+					    dropArea.addEventListener('drop', this.dropEvent, false)
+					    dropArea.addEventListener('dragleave', (e) => {
+					      e.stopPropagation()
+					      e.preventDefault()
+					      this.dropActive = false
+					    })
+					    dropArea.addEventListener('dragenter', (e) => {
+					      e.stopPropagation()
+					      e.preventDefault()
+					      this.dropActive = true
+					    })
+					    dropArea.addEventListener('dragover', (e) => {
+					      e.stopPropagation()
+					      e.preventDefault()
+					      this.dropActive = true
+					    })
 		},
 		destroyed() {
 		  document.removeEventListener("paste", this.paste, true);
@@ -347,6 +377,15 @@
 </script>
 
 <style lang='scss'>
+	#drop-area{
+		height:100px;
+		background-color:#fff;
+		border:1px solid red;
+		text-align: center;
+	}
+	.drop-active{
+		background-color: rgba(231,234,246,0.8)!important;
+	}
 	.content {
 		padding-bottom: 10px;
 	}
@@ -365,7 +404,7 @@
 	}
 
 	.btn-list {
-		padding: 0px 30px;
+		padding: 0px 0px;
 	}
 
 	.btn-list button {

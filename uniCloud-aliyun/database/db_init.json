@@ -3,5 +3,16 @@
 // 编写完毕后对本文件点右键，可按配置规则创建表和添加数据
 
 {
-	"unicloud-test": {}
+    "piclist": {
+        "data": [
+            {
+                "_id": "602eae2eef338d0001aafcb1",
+                "md5": "457f704c8de0a8fa0064134423b9ed9c",
+                "name": "logo.png",
+                "size": 4023,
+                "url": "https://vkceyugu.cdn.bspapp.com/VKCEYUGU-9b24efc2-400e-4e7d-8af1-7fc2911fbfcc/62c61d61-a46d-4959-84a4-5e676b98b4bc.png",
+                "time": 1613671982631
+            }
+        ]
+    }
 }

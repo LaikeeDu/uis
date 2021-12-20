@@ -1,6 +1,6 @@
 {
     "name" : "img",
-    "appid" : "APPID",
+    "appid" : "__UNI__6B8570F",
     "description" : "",
     "versionName" : "1.0.0",
     "versionCode" : "100",
@@ -73,7 +73,7 @@
         "usingComponents" : true
     },
     "h5" : {
-        "title" : "应用名",
-        "domain" : "域名"
+        "title" : "img",
+        "domain" : "https://img.application.pub/"
     }
 }
