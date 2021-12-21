@@ -69,6 +69,8 @@
 				        e.preventDefault()
 						console.log(e.dataTransfer.files)
 						for(let i = 0; i < e.dataTransfer.files.length; i++){
+							//console.log(e.dataTransfer.files[i].getAsFile())
+							//blob = e.dataTransfer.files[i].getAsFile();
 							this.upload(e.dataTransfer.files[i])
 						}
 				        
@@ -131,8 +133,9 @@
 						name = Date.now()+'.png'
 						let f = this.blobToFile(file, name)
 						var size = f.size
+						var blobUrl = URL.createObjectURL(f);
 						options.push({
-							filePath: file,
+							filePath: blobUrl,
 							cloudPath: name,//Date.now() + '.' + ext,
 							size: size
 						})
@@ -269,6 +272,7 @@
 								  		showCancel: false
 								  	})*/
 								  	that.picurl.push(res.fileID)
+									//alert(res)
 								  	uniCloud.callFunction({
 								  	    name: 'baidupic',
 								  	    data: { pic: res.fileID, 'name':options[i].cloudPath,'size':options[i].size,'md5':that.md5[i] }
